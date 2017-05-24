@@ -27,6 +27,7 @@ public class RpcDispatcher implements DataHandler {
             return;
         }
         Request request = (Request) data;
+        System.out.println(request.getURL());
         potatoRpcMap.get(
                 "/getName")
                 .invoke(request, ctx);

@@ -56,7 +56,7 @@ public class MethodInvoker {
         }
     }
     
-    private Function<Request, Runnable> noResponse = (Request request) ->
+    private Function<Request, Runnable> noResponse = request ->
             () -> {
                 try {
                     method.invoke(instance, request.getArgs());
@@ -66,7 +66,7 @@ public class MethodInvoker {
                 }
             };
     
-    private Function<Request, Callable<Response>> needResponse = (Request request) ->
+    private Function<Request, Callable<Response>> needResponse = request ->
             () -> {
                 try {
                     Object result = method.invoke(instance, request.getArgs());
