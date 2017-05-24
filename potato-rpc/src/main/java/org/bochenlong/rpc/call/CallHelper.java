@@ -24,43 +24,40 @@ import java.util.concurrent.*;
 public class CallHelper {
     protected static ConcurrentHashMap<String, Channel> CHANNELS
             = new ConcurrentHashMap<>();
-
-    @SuppressWarnings("SpellCheckingInspection")
-    protected static ConcurrentHashMap<String, String> HOSTCHKEY_PATH
-            = new ConcurrentHashMap<>();
-
+    
     protected static ConcurrentHashMap<Long, RpcFuture<Response>> FUTURES
             = new ConcurrentHashMap<>();
     private static URLHandler potatoURLHandler = SpiUtil.getServiceImpl(URLHandler.class);
-
-
+    
+    
     public static final AttributeKey<String> ATTR_CHANNEL_KEY =
             AttributeKey.valueOf("CHANNEL_KEY");
-
+    
     public static Response sync(String restURL, Object... data) throws RemoteException, InterruptedException, ExecutionException, TimeoutException {
         return async(restURL, data).get(RpcManager.getExecuteTimeOut(), TimeUnit.MINUTES);
     }
-
+    
     public static Future<Response> async(String restURL, Object... data) throws RemoteException {
         Request request = new Request(RequestType.SYNC.getType(), restURL, data);
         NettyHelper.send(connect(restURL), request);
         return FUTURES.computeIfAbsent(request.getId(), a -> new RpcFuture<>());
     }
-
+    
     private static void notify(String restURL, Object... data) throws RemoteException {
         Request request = new Request(RequestType.NOTIFY.getType(), restURL, data);
         NettyHelper.send(connect(restURL), request);
     }
-
+    
     private static Channel connect(String restURL) {
-        return CHANNELS.getOrDefault(restURL, syncConnect(restURL));
+        return CHANNELS.getOrDefault(potatoURLHandler.getHostKey(restURL), syncConnect(restURL));
     }
-
+    
     private synchronized static Channel syncConnect(String restURL) {
-        if (CHANNELS.containsKey(restURL)) return CHANNELS.get(restURL);
+        if (CHANNELS.containsKey(potatoURLHandler.getHostKey(restURL)))
+            return CHANNELS.get(potatoURLHandler.getHostKey(restURL));
         return connR(restURL);
     }
-
+    
     // not thread safe
     // means that will create N conn to one remote
     // remote can be any content
@@ -69,10 +66,10 @@ public class CallHelper {
         Channel channel = new NettyClient(potatoURLHandler.getHost(restURL)).channel();
         String hostKey = potatoURLHandler.getHostKey(restURL);
         channel.attr(ATTR_CHANNEL_KEY).setIfAbsent(hostKey);
-        HOSTCHKEY_PATH.put(hostKey, potatoURLHandler.getPath(restURL));
+        CHANNELS.put(potatoURLHandler.getHostKey(restURL), channel);
         return channel;
     }
-
+    
     public static void writeResp(Response response) {
         RpcFuture<Response> f = FUTURES.get(response.getId());
         if (f == null) return;
