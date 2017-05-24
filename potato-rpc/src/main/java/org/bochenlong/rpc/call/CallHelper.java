@@ -27,6 +27,8 @@ public class CallHelper {
     
     protected static ConcurrentHashMap<Long, RpcFuture<Response>> FUTURES
             = new ConcurrentHashMap<>();
+    // HANDLER 抽出来公用
+    // REQUEST 增加PATH参数,
     private static URLHandler potatoURLHandler = SpiUtil.getServiceImpl(URLHandler.class);
     
     
