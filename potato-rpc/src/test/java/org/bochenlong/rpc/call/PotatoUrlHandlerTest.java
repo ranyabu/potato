@@ -7,7 +7,7 @@ import org.bochenlong.rpc.func.impl.PotatoURLHandler;
  */
 public class PotatoUrlHandlerTest {
     public static void main(String[] args) {
-        String restURL = "potato://127.0.0.1/chKey/path";
+        String restURL = "potato://127.0.0.1/chKey/path/v1";
         PotatoURLHandler handler = new PotatoURLHandler();
         String a = handler.getHost(restURL);
         System.out.println(a);

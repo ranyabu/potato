@@ -31,6 +31,7 @@ public class MsgDecoder extends LengthFieldBasedFrameDecoder {
         byte[] bytes = new byte[remainLength];
         frame.readBytes(bytes);
         NettyMsg msg = MsgCodec.toObject(bytes);
+        assert msg != null;
         msg.getHeader().setLength(length);
 
         frame.release();
