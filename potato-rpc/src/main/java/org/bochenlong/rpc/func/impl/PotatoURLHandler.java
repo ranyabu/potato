@@ -39,7 +39,7 @@ public class PotatoURLHandler implements URLHandler {
     }
     
     private Function<String, String> hostKeyFunc = resultURL ->
-            resultURL.substring(getStringIndex(resultURL, "/", 3), getStringIndex(resultURL, "/", 4));
+            resultURL.substring(getStringIndex(resultURL, "/", 2), getStringIndex(resultURL, "/", 4));
     
     
     private int getStringIndex(String origin, @SuppressWarnings("SameParameterValue") String str, int n) {
