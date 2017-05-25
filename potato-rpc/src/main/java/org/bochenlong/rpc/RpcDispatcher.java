@@ -33,12 +33,8 @@ public class RpcDispatcher implements DataHandler {
         MethodInvoker invoker = potatoRpcMap.get(request.getPath());
         
         if (invoker == null) {
-            try {
-                NettyHelper.send(ctx, ResponseUtil.exception(request.getId(),
-                        String.format("ERROR : %s", "no service find for this path")));
-            } catch (RemoteException e) {
-                // pass
-            }
+            CallHelper.response(ctx, ResponseUtil.exception(request.getId(),
+                    String.format("ERROR : %s", "no service find for this path")));
             return;
         }
         invoker.invoke(request, ctx);

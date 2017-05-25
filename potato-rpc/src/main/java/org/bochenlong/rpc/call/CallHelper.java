@@ -1,6 +1,7 @@
 package org.bochenlong.rpc.call;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import org.bochenlong.net.NettyHelper;
 import org.bochenlong.net.client.NettyClient;
@@ -26,6 +27,14 @@ public class CallHelper {
     
     public static final AttributeKey<String> ATTR_CHANNEL_KEY =
             AttributeKey.valueOf("CHANNEL_KEY");
+    
+    public static void response(ChannelHandlerContext ctx, Response response) {
+        try {
+            NettyHelper.send(ctx, response);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
     
     public static Response sync(String restURL, Object... data) throws RemoteException, InterruptedException, ExecutionException, TimeoutException {
         return async(restURL, data).get(RpcManager.getExecuteTimeOut(), TimeUnit.MINUTES);

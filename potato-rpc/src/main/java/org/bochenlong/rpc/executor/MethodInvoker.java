@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import org.bochenlong.net.NettyHelper;
 import org.bochenlong.net.common.exception.RemoteException;
 import org.bochenlong.rpc.RpcManager;
+import org.bochenlong.rpc.call.CallHelper;
 import org.bochenlong.rpc.exchange.Request;
 import org.bochenlong.rpc.exchange.ResponseCode;
 import org.bochenlong.rpc.exchange.Response;
@@ -41,17 +42,11 @@ public class MethodInvoker {
             // else type is async sync
             try {
                 Future<Response> future = executor.submit(needResponse.apply(request));
-                NettyHelper.send(ctx, future.get(RpcManager.getExecuteTimeOut(), TimeUnit.MILLISECONDS));
+                CallHelper.response(ctx, future.get(RpcManager.getExecuteTimeOut(), TimeUnit.MILLISECONDS));
             } catch (InterruptedException | ExecutionException | TimeoutException future) {
                 logger.error("future get exception: {}", future.getMessage());
                 future.printStackTrace();
-                try {
-                    NettyHelper.send(ctx, ResponseUtil.exception(request.getId(), String.format("EXCEPTION : %s", future.getMessage())));
-                } catch (RemoteException e) {
-                    // pass
-                }
-            } catch (RemoteException remote) {
-                // pass
+                CallHelper.response(ctx, ResponseUtil.exception(request.getId(), String.format("EXCEPTION : %s", future.getMessage())));
             }
         }
     }
