@@ -15,7 +15,7 @@ public class CallHelperTest {
     public static void main(String[] args) throws RemoteException, ExecutionException, TimeoutException, InterruptedException {
         RpcDispatcher dispatcher = new RpcDispatcher();
         NettyHelper.startServer();
-        Response sync = CallHelper.sync("potato://127.0.0.1/a/getName", 1);
+        Response sync = CallHelper.sync("potato://127.0.0.1/a/user/v1/getName", 1);
         System.out.println(sync.getData());
          sync = CallHelper.sync("potato://127.0.0.1/b/getName", 1);
         System.out.println(sync.getData());
