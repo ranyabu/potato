@@ -10,7 +10,7 @@ import org.bochenlong.rpc.exchange.Response;
  */
 @Potato(pool = 2)
 public class UserService {
-    @PotatoRpc(path = "/getName")
+    @PotatoRpc(path = "/user/v1/getName")
     public String getName(long userId) {
         return "this is li ming";
     }

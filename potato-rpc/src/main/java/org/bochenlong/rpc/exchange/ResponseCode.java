@@ -5,7 +5,8 @@ package org.bochenlong.rpc.exchange;
  */
 public enum ResponseCode {
     SUCCESS((byte) 1),
-    EXCEPTION((byte) 2),;
+    ERROR((byte) 2),
+    EXCEPTION((byte) 3),;
     
     private byte value;
     

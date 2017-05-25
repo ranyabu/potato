@@ -1,10 +1,13 @@
 package org.bochenlong.rpc;
 
 import io.netty.channel.ChannelHandlerContext;
+import org.bochenlong.net.NettyHelper;
+import org.bochenlong.net.common.exception.RemoteException;
 import org.bochenlong.net.func.DataHandler;
 import org.bochenlong.rpc.call.CallHelper;
 import org.bochenlong.rpc.exchange.Request;
 import org.bochenlong.rpc.exchange.Response;
+import org.bochenlong.rpc.exchange.ResponseUtil;
 import org.bochenlong.rpc.executor.MethodInvoker;
 import org.bochenlong.rpc.scan.ScanPotatoRpc;
 
@@ -27,7 +30,17 @@ public class RpcDispatcher implements DataHandler {
             return;
         }
         Request request = (Request) data;
-        potatoRpcMap.get(request.getPath())
-                .invoke(request, ctx);
+        MethodInvoker invoker = potatoRpcMap.get(request.getPath());
+        
+        if (invoker == null) {
+            try {
+                NettyHelper.send(ctx, ResponseUtil.exception(request.getId(),
+                        String.format("ERROR : %s", "no service find for this path")));
+            } catch (RemoteException e) {
+                // pass
+            }
+            return;
+        }
+        invoker.invoke(request, ctx);
     }
 }
