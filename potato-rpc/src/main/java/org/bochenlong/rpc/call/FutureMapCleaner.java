@@ -1,6 +1,6 @@
 package org.bochenlong.rpc.call;
 
-import org.bochenlong.rpc.exchange.assist.RpcFuture;
+import org.bochenlong.rpc.exchange.assist.PotatoFuture;
 
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -16,7 +16,7 @@ public class FutureMapCleaner {
         Runnable runnable = () ->
                 CallHelper.FUTURES.entrySet()
                         .stream()
-                        .filter(a -> a.getValue().getStatus() != RpcFuture.RUNNING)
+                        .filter(a -> a.getValue().getStatus() != PotatoFuture.RUNNING)
                         .map(Map.Entry::getKey)
                         .collect(Collectors.toList())
                         .stream()

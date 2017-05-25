@@ -10,7 +10,7 @@ import org.bochenlong.rpc.RpcManager;
 import org.bochenlong.rpc.exchange.Request;
 import org.bochenlong.rpc.exchange.Response;
 import org.bochenlong.rpc.exchange.assist.RequestType;
-import org.bochenlong.rpc.exchange.assist.RpcFuture;
+import org.bochenlong.rpc.exchange.assist.PotatoFuture;
 import org.bochenlong.rpc.func.URLHandlerUtil;
 
 import java.util.concurrent.*;
@@ -22,7 +22,7 @@ public class CallHelper {
     protected static ConcurrentHashMap<String, Channel> CHANNELS
             = new ConcurrentHashMap<>();
     
-    protected static ConcurrentHashMap<Long, RpcFuture<Response>> FUTURES
+    protected static ConcurrentHashMap<Long, PotatoFuture> FUTURES
             = new ConcurrentHashMap<>();
     
     public static final AttributeKey<String> ATTR_CHANNEL_KEY =
@@ -40,10 +40,10 @@ public class CallHelper {
         return async(restURL, data).get(RpcManager.getExecuteTimeOut(), TimeUnit.MINUTES);
     }
     
-    public static Future<Response> async(String restURL, Object... data) throws RemoteException {
+    public static PotatoFuture async(String restURL, Object... data) throws RemoteException {
         Request request = new Request(RequestType.SYNC.getType(), restURL, data);
         NettyHelper.send(connect(restURL), request);
-        return FUTURES.computeIfAbsent(request.getId(), a -> new RpcFuture<>());
+        return FUTURES.computeIfAbsent(request.getId(), a -> new PotatoFuture());
     }
     
     private static void notify(String restURL, Object... data) throws RemoteException {
@@ -74,7 +74,7 @@ public class CallHelper {
     }
     
     public static void writeResp(Response response) {
-        RpcFuture<Response> f = FUTURES.get(response.getId());
+        PotatoFuture f = FUTURES.get(response.getId());
         if (f == null) return;
         f.set(response);
         FUTURES.remove(response.getId());
