@@ -1,20 +1,16 @@
 package org.bochenlong.rpc.call;
 
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.util.AttributeKey;
 import org.bochenlong.net.NettyHelper;
-import org.bochenlong.net.NettyManager;
 import org.bochenlong.net.client.NettyClient;
 import org.bochenlong.net.common.exception.RemoteException;
-import org.bochenlong.net.msg.MsgFactory;
-import org.bochenlong.net.util.SpiUtil;
 import org.bochenlong.rpc.RpcManager;
 import org.bochenlong.rpc.exchange.Request;
 import org.bochenlong.rpc.exchange.Response;
 import org.bochenlong.rpc.exchange.assist.RequestType;
 import org.bochenlong.rpc.exchange.assist.RpcFuture;
-import org.bochenlong.rpc.func.URLHandler;
+import org.bochenlong.rpc.func.URLHandlerUtil;
 
 import java.util.concurrent.*;
 
@@ -27,10 +23,6 @@ public class CallHelper {
     
     protected static ConcurrentHashMap<Long, RpcFuture<Response>> FUTURES
             = new ConcurrentHashMap<>();
-    // HANDLER 抽出来公用
-    // REQUEST 增加PATH参数,
-    private static URLHandler potatoURLHandler = SpiUtil.getServiceImpl(URLHandler.class);
-    
     
     public static final AttributeKey<String> ATTR_CHANNEL_KEY =
             AttributeKey.valueOf("CHANNEL_KEY");
@@ -51,12 +43,12 @@ public class CallHelper {
     }
     
     private static Channel connect(String restURL) {
-        return CHANNELS.getOrDefault(potatoURLHandler.getHostKey(restURL), syncConnect(restURL));
+        return CHANNELS.getOrDefault(URLHandlerUtil.getHostKey(restURL), syncConnect(restURL));
     }
     
     private synchronized static Channel syncConnect(String restURL) {
-        if (CHANNELS.containsKey(potatoURLHandler.getHostKey(restURL)))
-            return CHANNELS.get(potatoURLHandler.getHostKey(restURL));
+        if (CHANNELS.containsKey(URLHandlerUtil.getHostKey(restURL)))
+            return CHANNELS.get(URLHandlerUtil.getHostKey(restURL));
         return connR(restURL);
     }
     
@@ -65,10 +57,10 @@ public class CallHelper {
     // remote can be any content
     // but you should impl the URLHandler for get the host
     private static Channel connR(String restURL) {
-        Channel channel = new NettyClient(potatoURLHandler.getHost(restURL)).channel();
-        String hostKey = potatoURLHandler.getHostKey(restURL);
+        Channel channel = new NettyClient(URLHandlerUtil.getHost(restURL)).channel();
+        String hostKey = URLHandlerUtil.getHostKey(restURL);
         channel.attr(ATTR_CHANNEL_KEY).setIfAbsent(hostKey);
-        CHANNELS.put(potatoURLHandler.getHostKey(restURL), channel);
+        CHANNELS.put(URLHandlerUtil.getHostKey(restURL), channel);
         return channel;
     }
     
