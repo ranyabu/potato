@@ -11,18 +11,17 @@ import java.util.concurrent.*;
 public class PotatoFuture implements Future {
     private CountDownLatch countDownLatch = new CountDownLatch(1);
     
-    private volatile int status;
+    private volatile int status = RUNNING;
     
-    public static final int RUNNING = 1;
-    private static final int CANCELLED = 2;
-    private static final int COMPLETED = 10;
-    private static final int ERROR = 50;
-    private static final int EXCEPTION = 51;
+    private static final int RUNNING    = 1;
+    private static final int CANCELLED  = 2;
+    private static final int COMPLETED  = 10;
+    private static final int ERROR      = 50;
+    private static final int EXCEPTION  = 51;
     
     private volatile Response result;
     
     public PotatoFuture() {
-        status = RUNNING;
     }
     
     @Override
@@ -37,7 +36,11 @@ public class PotatoFuture implements Future {
     
     @Override
     public boolean isDone() {
-        return status == COMPLETED;
+        return status == COMPLETED || status == ERROR || status == EXCEPTION;
+    }
+    
+    public boolean isRunning() {
+        return status == RUNNING;
     }
     
     @Override
@@ -54,23 +57,8 @@ public class PotatoFuture implements Future {
         throw new TimeoutException("future get the result timeout");
     }
     
-    private Response result() throws ExecutionException, InterruptedException {
-        switch (this.status) {
-            case COMPLETED:
-                return this.result;
-            case ERROR:
-                throw new ExecutionException(new Throwable((String) this.result.getData()));
-            case EXCEPTION:
-                throw new ExecutionException(new Throwable((String) this.result.getData()));
-            case CANCELLED:
-                throw new InterruptedException("future have be interrupted");
-            default:
-                throw new ExecutionException(new Throwable("UnKnow exception when future get"));
-        }
-    }
-    
     public void set(Response v) {
-        this.result = v;
+        result = v;
         changeStatus(v);
     }
     
@@ -79,24 +67,41 @@ public class PotatoFuture implements Future {
     }
     
     public int getStatus() {
-        return this.status;
+        return status;
+    }
+    
+    
+    private Response result() throws ExecutionException, InterruptedException {
+        switch (status) {
+            case COMPLETED:
+                return this.result;
+            case ERROR:
+                return null;
+            case EXCEPTION:
+                return null;
+            case CANCELLED:
+                throw new InterruptedException("future have be interrupted");
+            default:
+                throw new ExecutionException(new Throwable("UnKnow exception when future get"));
+        }
     }
     
     private void changeStatus(Response v) {
-        if (v.getCode() == ResponseCode.ERROR.getValue()) {
+        if (v.getCode() == ResponseCode.SUCCESS.getValue()) {
+            changeStatus(COMPLETED);
+        } else if (v.getCode() == ResponseCode.ERROR.getValue()) {
             changeStatus(ERROR);
         } else if (v.getCode() == ResponseCode.EXCEPTION.getValue()) {
             changeStatus(EXCEPTION);
-        } else
-            changeStatus(COMPLETED);
+        }
     }
     
-    private synchronized void changeStatus(int status) {
-        if (this.status != RUNNING) {
+    private synchronized void changeStatus(int s) {
+        if (status != RUNNING) {
             return;
         }
-        this.status = status;
-        this.countDownLatch.countDown();
+        status = s;
+        countDownLatch.countDown();
     }
 }
 
