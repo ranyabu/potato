@@ -10,11 +10,11 @@ import org.bochenlong.net.util.SpiUtil;
 public class MsgCodecWrapper {
     private static IMsgCodec msgCodec = SpiUtil.getServiceImpl(IMsgCodec.class);
     
-    public static byte[] toBytes(NettyMsg t) {
+    static byte[] toBytes(NettyMsg t) {
         return msgCodec.toBytes(t);
     }
     
-    public static NettyMsg toObject(byte[] bytes) {
+    static NettyMsg toObject(byte[] bytes) {
         return msgCodec.toObject(bytes);
     }
 }

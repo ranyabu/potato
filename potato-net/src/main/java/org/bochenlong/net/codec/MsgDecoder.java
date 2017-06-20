@@ -10,10 +10,7 @@ import org.bochenlong.net.msg.bean.NettyMsg;
  */
 public class MsgDecoder extends LengthFieldBasedFrameDecoder {
 
-    // maxFrameLength 最大长度
-    // lengthFieldOffset 偏移量
-    // lengthFieldLength 表示长度的位置
-    // lengthAdjustment 弥补长度
+    // maxFrameLength 最大长度 lengthFieldOffset 偏移量 lengthFieldLength 表示长度的位置 lengthAdjustment 弥补长度
     public MsgDecoder(int maxFrameLength, int lengthFieldOffset, int lengthFieldLength, int lengthAdjustment) {
         super(maxFrameLength, lengthFieldOffset, lengthFieldLength, lengthAdjustment, 0);
     }
