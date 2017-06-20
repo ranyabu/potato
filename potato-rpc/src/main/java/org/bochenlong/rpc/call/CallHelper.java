@@ -66,7 +66,7 @@ public class CallHelper {
     // remote can be any content
     // but you should impl the URLHandler for get the host
     private static Channel connR(String restURL) {
-        Channel channel = new NettyClient(URLHandlerUtil.getHost(restURL)).channel();
+        Channel channel = NettyHelper.connH(URLHandlerUtil.getHost(restURL));
         String hostKey = URLHandlerUtil.getHostKey(restURL);
         channel.attr(ATTR_CHANNEL_KEY).setIfAbsent(hostKey);
         CHANNELS.put(URLHandlerUtil.getHostKey(restURL), channel);
