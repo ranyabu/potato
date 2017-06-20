@@ -24,10 +24,6 @@ public class NettyClient {
         connect(host, NettyManager.me().getDEFAULT_PORT());
     }
     
-    public NettyClient(String host, int port) {
-        connect(host, port);
-    }
-    
     private EventLoopGroup workGroup;
     
     private void connect(String host, int port) {

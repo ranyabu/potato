@@ -37,7 +37,7 @@ public class CallHelper {
     }
     
     public static Response sync(String restURL, Object... data) throws RemoteException, InterruptedException, ExecutionException, TimeoutException {
-        return async(restURL, data).get(RpcManager.getExecuteTimeOut(), TimeUnit.MINUTES);
+        return async(restURL, data).get(RpcManager.singleton().getEXECUTE_TIME_OUT(), TimeUnit.MINUTES);
     }
     
     public static PotatoFuture async(String restURL, Object... data) throws RemoteException {

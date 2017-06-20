@@ -72,7 +72,7 @@ public class NettyServer {
         }
     }
     
-    public void start(int port) {
+    private void start(int port) {
         bind(port);
     }
     
