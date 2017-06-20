@@ -38,18 +38,12 @@ public class NettyManager {
     private static int SEND_TIME_OUT = 1000 * 15;
     private static int RETRY_TIME = 1000 * 60;
 
-    private static long DATA_CENTER_ID = 1L;
-    private static long WORK_ID = 1L;
-
-    private static List<Map<String, Integer>> BIZ_MSG_TYPE = new ArrayList<>();
-
-
     public String getDEFAULT_HOST() {
         return DEFAULT_HOST;
     }
 
     public void setDEFAULT_HOST(String DEFAULT_HOST) {
-        this.DEFAULT_HOST = DEFAULT_HOST;
+        NettyManager.DEFAULT_HOST = DEFAULT_HOST;
     }
 
     public int getDEFAULT_PORT() {
@@ -57,7 +51,7 @@ public class NettyManager {
     }
 
     public void setDEFAULT_PORT(int DEFAULT_PORT) {
-        this.DEFAULT_PORT = DEFAULT_PORT;
+        NettyManager.DEFAULT_PORT = DEFAULT_PORT;
     }
 
     public int getMSG_MAX_LEN() {
@@ -65,7 +59,7 @@ public class NettyManager {
     }
 
     public void setMSG_MAX_LEN(int MSG_MAX_LEN) {
-        this.MSG_MAX_LEN = MSG_MAX_LEN;
+        NettyManager.MSG_MAX_LEN = MSG_MAX_LEN;
     }
 
     public int getMSG_LEN_OFFSET() {
@@ -73,7 +67,7 @@ public class NettyManager {
     }
 
     public void setMSG_LEN_OFFSET(int MSG_LEN_OFFSET) {
-        this.MSG_LEN_OFFSET = MSG_LEN_OFFSET;
+        NettyManager.MSG_LEN_OFFSET = MSG_LEN_OFFSET;
     }
 
     public int getMSG_LEN_FIELD() {
@@ -81,7 +75,7 @@ public class NettyManager {
     }
 
     public void setMSG_LEN_FIELD(int MSG_LEN_FIELD) {
-        this.MSG_LEN_FIELD = MSG_LEN_FIELD;
+        NettyManager.MSG_LEN_FIELD = MSG_LEN_FIELD;
     }
 
     public int getMSG_LEN_ADJUSTMENT() {
@@ -89,7 +83,7 @@ public class NettyManager {
     }
 
     public void setMSG_LEN_ADJUSTMENT(int MSG_LEN_ADJUSTMENT) {
-        this.MSG_LEN_ADJUSTMENT = MSG_LEN_ADJUSTMENT;
+        NettyManager.MSG_LEN_ADJUSTMENT = MSG_LEN_ADJUSTMENT;
     }
 
     public int getBACKLOG_SIZE() {
@@ -97,7 +91,7 @@ public class NettyManager {
     }
 
     public void setBACKLOG_SIZE(int BACKLOG_SIZE) {
-        this.BACKLOG_SIZE = BACKLOG_SIZE;
+        NettyManager.BACKLOG_SIZE = BACKLOG_SIZE;
     }
 
     public int getCONNECT_TIME_OUT() {
@@ -105,7 +99,7 @@ public class NettyManager {
     }
 
     public void setCONNECT_TIME_OUT(int CONNECT_TIME_OUT) {
-        this.CONNECT_TIME_OUT = CONNECT_TIME_OUT;
+        NettyManager.CONNECT_TIME_OUT = CONNECT_TIME_OUT;
     }
 
     public int getSEND_TIME_OUT() {
@@ -113,7 +107,7 @@ public class NettyManager {
     }
 
     public void setSEND_TIME_OUT(int SEND_TIME_OUT) {
-        this.SEND_TIME_OUT = SEND_TIME_OUT;
+        NettyManager.SEND_TIME_OUT = SEND_TIME_OUT;
     }
 
     public int getRETRY_TIME() {
@@ -121,30 +115,7 @@ public class NettyManager {
     }
 
     public void setRETRY_TIME(int RETRY_TIME) {
-        this.RETRY_TIME = RETRY_TIME;
+        NettyManager.RETRY_TIME = RETRY_TIME;
     }
 
-    public long getDATA_CENTER_ID() {
-        return DATA_CENTER_ID;
-    }
-
-    public void setDATA_CENTER_ID(long DATA_CENTER_ID) {
-        this.DATA_CENTER_ID = DATA_CENTER_ID;
-    }
-
-    public long getWORK_ID() {
-        return WORK_ID;
-    }
-
-    public void setWORK_ID(long WORK_ID) {
-        this.WORK_ID = WORK_ID;
-    }
-
-    public List<Map<String, Integer>> getBIZ_MSG_TYPE() {
-        return BIZ_MSG_TYPE;
-    }
-
-    public void setBIZ_MSG_TYPE(List<Map<String, Integer>> BIZ_MSG_TYPE) {
-        this.BIZ_MSG_TYPE = BIZ_MSG_TYPE;
-    }
 }
