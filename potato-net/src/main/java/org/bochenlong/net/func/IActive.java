@@ -1,4 +1,4 @@
-package org.bochenlong.net.event.active;
+package org.bochenlong.net.func;
 
 import io.netty.channel.ChannelHandlerContext;
 

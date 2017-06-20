@@ -2,7 +2,7 @@ package org.bochenlong.net.server.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.bochenlong.net.event.active.ActiveHelper;
+import org.bochenlong.net.event.active.ActiveWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,12 +21,12 @@ public class ServerActiveHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.debug("active {}", ctx);
-        if (!ActiveHelper.active(ctx)) ctx.close();
+        if (!ActiveWrapper.active(ctx)) ctx.close();
     }
     
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         logger.debug("inactive {}", ctx);
-        ActiveHelper.inactive(ctx);
+        ActiveWrapper.inactive(ctx);
     }
 }

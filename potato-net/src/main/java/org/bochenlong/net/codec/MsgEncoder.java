@@ -21,7 +21,7 @@ public class MsgEncoder extends MessageToMessageEncoder<NettyMsg> {
 
         ByteBuf byteBuf = Unpooled.buffer();
         byteBuf.writeInt(1);
-        byteBuf.writeBytes(MsgCodec.toBytes(msg));
+        byteBuf.writeBytes(MsgCodecWrapper.toBytes(msg));
         byteBuf.setInt(0, byteBuf.readableBytes());
         
         list.add(byteBuf);

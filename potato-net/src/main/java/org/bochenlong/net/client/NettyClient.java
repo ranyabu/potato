@@ -68,10 +68,6 @@ public class NettyClient {
         }
     }
     
-    public void disConnect() {
-        this.channel.close();
-    }
-    
     public Channel channel() {
         return this.channel;
     }

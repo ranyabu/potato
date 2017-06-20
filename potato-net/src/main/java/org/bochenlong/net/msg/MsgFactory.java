@@ -4,8 +4,6 @@ package org.bochenlong.net.msg;
 import org.bochenlong.net.msg.bean.Header;
 import org.bochenlong.net.msg.bean.NettyMsg;
 
-import java.util.Map;
-
 /**
  * Created by bochenlong on 17-1-3.
  */
