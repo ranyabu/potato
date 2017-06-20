@@ -42,7 +42,7 @@ public class MethodInvoker {
             // else type is async sync
             try {
                 Future<Response> future = executor.submit(needResponse.apply(request));
-                CallHelper.response(ctx, future.get(RpcManager.getExecuteTimeOut(), TimeUnit.MILLISECONDS));
+                CallHelper.response(ctx, future.get(RpcManager.singleton().getEXECUTE_TIME_OUT(), TimeUnit.MILLISECONDS));
             } catch (InterruptedException | ExecutionException | TimeoutException future) {
                 logger.error("future get exception: {}", future.getMessage());
                 future.printStackTrace();
