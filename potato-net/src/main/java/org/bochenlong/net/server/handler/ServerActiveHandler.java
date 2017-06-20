@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 /**
  * Created by bochenlong on 16-11-4.
  */
-public class ServerAuthInHandler extends ChannelInboundHandlerAdapter {
-    private static Logger logger = LoggerFactory.getLogger(ServerAuthInHandler.class);
+public class ServerActiveHandler extends ChannelInboundHandlerAdapter {
+    private static Logger logger = LoggerFactory.getLogger(ServerActiveHandler.class);
     
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
