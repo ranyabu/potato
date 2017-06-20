@@ -1,6 +1,6 @@
 package org.bochenlong.rpc.idgenerator;
 
-import org.bochenlong.net.NettyManager;
+import org.bochenlong.rpc.RpcManager;
 
 import java.util.function.LongSupplier;
 import java.util.function.LongUnaryOperator;
@@ -10,45 +10,53 @@ import java.util.function.LongUnaryOperator;
  */
 public class IdWorker {
     private static class Holder {
-        private static IdWorker idWorker = new IdWorker(NettyManager.me().getDATA_CENTER_ID(), NettyManager.me().getWORK_ID());
+        private static IdWorker idWorker = new IdWorker(
+                RpcManager.singleton().getID_WORKER_SEQ1(), RpcManager.singleton().getID_WORKER_SEQ2());
     }
     
     public static IdWorker instance() {
         return Holder.idWorker;
     }
     
-    public IdWorker(long dataCenterId, long workerId) {
-        if (workerId > maxWorkerId || workerId < 0) {
-            throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
+    public IdWorker(long workerId1, long workerId2) {
+        if (workerId1 > maxWorkerId1 || workerId1 < 0) {
+            throw new IllegalArgumentException(String.format("workerId1 can't be greater than %d or less than 0", maxWorkerId1));
         }
         
-        if (dataCenterId > maxDataCenterId || dataCenterId < 0) {
-            throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDataCenterId));
+        if (workerId2 > maxWorkerId2 || workerId2 < 0) {
+            throw new IllegalArgumentException(String.format("workerId2 Id can't be greater than %d or less than 0", maxWorkerId2));
         }
         
-        this.dataCenterId = dataCenterId;
-        this.workerId = workerId;
+        this.workerId1 = workerId1;
+        this.workerId2 = workerId2;
     }
     
-    private long dataCenterId;//
-    private long workerId;//
+    private long workerId1;//
+    private long workerId2;//
     
+    @SuppressWarnings("FieldCanBeLocal")
     private final long twEpoch = 1288834974657L;
-    private final long workerIdBits = 5L;
-    private final long dataCenterIdBits = 5L;
-    private final long maxWorkerId = -1L ^ (-1L << workerIdBits);
-    private final long maxDataCenterId = -1L ^ (-1L << dataCenterIdBits);
+    private final long workerId1Bits = 5L;
+    private final long workerId2Bits = 5L;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final long maxWorkerId1 = ~(-1L << workerId1Bits);
+    @SuppressWarnings("FieldCanBeLocal")
+    private final long maxWorkerId2 = ~(-1L << workerId2Bits);
     private final long sequenceBits = 12L;
     
-    private final long workerIdShift = sequenceBits;
-    private final long dataCenterIdShift = sequenceBits + workerIdBits;
-    private final long timestampLeftShift = sequenceBits + workerIdBits + dataCenterIdBits;
-    private final long sequenceMask = -1L ^ (-1L << sequenceBits);
+    @SuppressWarnings("FieldCanBeLocal")
+    private final long workerId1Shift = sequenceBits;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final long workerId2Shift = sequenceBits + workerId1Bits;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final long timestampLeftShift = sequenceBits + workerId1Bits + workerId2Bits;
+    @SuppressWarnings({"FieldCanBeLocal"})
+    private final long sequenceMask = ~(-1L << sequenceBits);
     
     private volatile long lastTimestamp = -1L;
     private volatile long sequence = 0L;
     
-    private LongSupplier timeGen = () -> System.currentTimeMillis();
+    private LongSupplier timeGen = System::currentTimeMillis;
     private LongUnaryOperator tilNextMillis = lastTimestamp -> {
         long timestamp = timeGen.getAsLong();
         while (timestamp <= lastTimestamp) {
@@ -73,8 +81,8 @@ public class IdWorker {
         }
         lastTimestamp = timestamp;
         return ((timestamp - twEpoch) << timestampLeftShift) |
-                (dataCenterId << dataCenterIdShift) |
-                (workerId << workerIdShift) |
+                (workerId1 << workerId2Shift) |
+                (workerId2 << workerId1Shift) |
                 sequence;
     }
     

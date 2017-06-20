@@ -1,33 +1,48 @@
 package org.bochenlong.rpc;
 
+import org.omg.PortableInterceptor.HOLDING;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
+import java.util.LinkedHashMap;
 
 /**
  * Created by bochenlong on 17-3-24.
  */
 public class RpcManager {
+    
+    private long EXECUTE_TIME_OUT = 30000;
+    private int ID_WORKER_SEQ1 = 1;
+    private int ID_WORKER_SEQ2 = 1;
+    
     private static class Holder {
-        private static RpcManager rpcM = init();
-
-        private static RpcManager init() {
-            InputStream in = RpcManager.class.getClassLoader().getResourceAsStream("rpc.yaml");
-            return new Yaml().loadAs(in, RpcManager.class);
-        }
+        private static RpcManager rpcManager = new RpcManager();
     }
-
-    public static RpcManager me() {
-        return Holder.rpcM;
+    
+    public static RpcManager singleton() {
+        return Holder.rpcManager;
     }
-
-    private static long EXECUTE_TIME_OUT = 30000;
-
-    public static long getExecuteTimeOut() {
+    
+    
+    private RpcManager() {
+        //noinspection unchecked
+        LinkedHashMap<String, String> conf =
+                (LinkedHashMap<String, String>) new Yaml().load(RpcManager.class.getClassLoader().getResourceAsStream("rpc.yaml"));
+        this.EXECUTE_TIME_OUT = Long.parseLong(conf.getOrDefault("EXECUTE_TIME_OUT", "30000"));
+        this.ID_WORKER_SEQ1 = Integer.parseInt(conf.getOrDefault("ID_WORKER_SEQ1", "1"));
+        this.ID_WORKER_SEQ2 = Integer.parseInt(conf.getOrDefault("ID_WORKER_SEQ2", "1"));
+    }
+    
+    public long getEXECUTE_TIME_OUT() {
         return EXECUTE_TIME_OUT;
     }
-
-    public static void setExecuteTimeOut(long executeTimeOut) {
-        EXECUTE_TIME_OUT = executeTimeOut;
+    
+    public int getID_WORKER_SEQ1() {
+        return ID_WORKER_SEQ1;
     }
+    
+    public int getID_WORKER_SEQ2() {
+        return ID_WORKER_SEQ2;
+    }
+    
 }
