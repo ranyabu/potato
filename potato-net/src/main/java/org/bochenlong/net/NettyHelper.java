@@ -29,38 +29,10 @@ public class NettyHelper {
     
     private static DataHandler dataHandler = SpiUtil.getServiceImpl(DataHandler.class);
     
-    public static String getIp(SocketAddress socketAddress) {
+    private static String getIp(SocketAddress socketAddress) {
         String address = socketAddress.toString();
         address = address.substring(address.indexOf("/") + 1, address.indexOf(":"));
         return address;
-    }
-    
-    public static String getLocalIP() {
-        String localIP = null;// 如果没有找到外网IP，则返回本机IP
-        try {
-            Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
-            InetAddress ip;
-            while (netInterfaces.hasMoreElements()) {
-                NetworkInterface ni = netInterfaces.nextElement();
-                Enumeration<InetAddress> address = ni.getInetAddresses();
-                while (address.hasMoreElements()) {
-                    ip = address.nextElement();
-                    if (!ip.isLoopbackAddress()
-                            && !ip.getHostAddress().contains(":")) {
-                        if (!ip.isSiteLocalAddress()) {
-                            // 如果找到外网IP，第一时间返回
-                            return ip.getHostAddress();
-                        } else {
-                            // 否则保留找到的本机IP
-                            localIP = ip.getHostAddress();
-                        }
-                    }
-                }
-            }
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        return localIP;
     }
     
     public static void send(Channel ch, Object data) throws RemoteException {
@@ -95,14 +67,5 @@ public class NettyHelper {
     public static void startServer() {
         new NettyServer().start();
     }
-    
-    public static void close(Channel ch) {
-        ch.close();
-    }
-    
-    public static void close(ChannelHandlerContext ctx) {
-        ctx.close();
-    }
-    
     
 }
