@@ -9,8 +9,11 @@ import org.bochenlong.net.NettyManager;
 import org.bochenlong.net.client.handler.ClientInHandler;
 import org.bochenlong.net.codec.MsgDecoder;
 import org.bochenlong.net.codec.MsgEncoder;
+import org.bochenlong.net.hb.ClientHbHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by bochenlong on 16-11-3.
@@ -43,6 +46,7 @@ public class NettyClient {
                                     , NettyManager.me().getMSG_LEN_OFFSET(), NettyManager.me().getMSG_LEN_FIELD()
                                     , NettyManager.me().getMSG_LEN_ADJUSTMENT()));
                             ch.pipeline().addLast(new MsgEncoder());
+                            ch.pipeline().addLast(new ClientHbHandler(NettyManager.me().getIDLE_TIME_OUT(), 0, 0, TimeUnit.MILLISECONDS));
                             ch.pipeline().addLast(new ClientInHandler());
                         }
                     });

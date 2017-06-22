@@ -12,6 +12,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.bochenlong.net.NettyManager;
 import org.bochenlong.net.codec.MsgDecoder;
 import org.bochenlong.net.codec.MsgEncoder;
+import org.bochenlong.net.hb.ServerHbHandler;
 import org.bochenlong.net.server.handler.ServerActiveHandler;
 import org.bochenlong.net.server.handler.ServerBizHandler;
 import org.slf4j.Logger;
@@ -49,6 +50,7 @@ public class NettyServer {
                                             NettyManager.me().getMSG_LEN_ADJUSTMENT()));
                             ch.pipeline().addLast(new MsgEncoder());
                             ch.pipeline().addLast(new ServerActiveHandler());
+                            ch.pipeline().addLast(new ServerHbHandler());
                             ch.pipeline().addLast(new ServerBizHandler());
                         }
                     });

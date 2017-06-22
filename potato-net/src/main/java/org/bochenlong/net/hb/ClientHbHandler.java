@@ -1,22 +1,21 @@
-package org.bochenlong.net.heartbeat;
+package org.bochenlong.net.hb;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.ReferenceCountUtil;
-import org.bochenlong.net.msg.Header;
 import org.bochenlong.net.msg.MsgType;
 import org.bochenlong.net.msg.NettyMsg;
 
-import java.util.function.Supplier;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by bochenlong on 17-6-21.
  */
-public class BeatHandler extends IdleStateHandler {
-    public BeatHandler(int readerIdleTimeSeconds, int writerIdleTimeSeconds, int allIdleTimeSeconds) {
-        super(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds);
+public class ClientHbHandler extends IdleStateHandler implements HbHandler {
+    public ClientHbHandler(long readerIdleTime, long writerIdleTime, long allIdleTime, TimeUnit unit) {
+        super(readerIdleTime, writerIdleTime, allIdleTime, unit);
     }
     
     @Override
@@ -34,15 +33,11 @@ public class BeatHandler extends IdleStateHandler {
         if (_evt instanceof IdleStateEvent) {
             IdleStateEvent evt = (IdleStateEvent) _evt;
             if (evt.state() == IdleState.WRITER_IDLE) {
-                ctx.writeAndFlush(beatMsg.get());
+                ctx.writeAndFlush(newBeat());
                 return;
             }
         }
         super.userEventTriggered(ctx, _evt);
     }
     
-    private Supplier<NettyMsg> beatMsg = () -> {
-        Header header = new Header(MsgType.BEAT.getType());
-        return new NettyMsg(header);
-    };
 }

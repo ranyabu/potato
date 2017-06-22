@@ -3,9 +3,6 @@ package org.bochenlong.net;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by bochenlong on 16-10-24.
@@ -38,7 +35,7 @@ public class NettyManager {
     private static int SEND_TIME_OUT = 1000 * 15;
     private static int RETRY_TIME = 1000 * 60;
     
-    private static long IDLE_TIME_OUT = 1000 * 5;
+    private static int IDLE_TIME_OUT = 1000 * 5;
     
     public String getDEFAULT_HOST() {
         return DEFAULT_HOST;
@@ -120,11 +117,11 @@ public class NettyManager {
         NettyManager.RETRY_TIME = RETRY_TIME;
     }
     
-    public static long getIDLE_TIME_OUT() {
+    public int getIDLE_TIME_OUT() {
         return IDLE_TIME_OUT;
     }
     
-    public static void setIDLE_TIME_OUT(long idleTimeOut) {
+    public void setIDLE_TIME_OUT(int idleTimeOut) {
         NettyManager.IDLE_TIME_OUT = idleTimeOut;
     }
 }
