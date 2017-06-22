@@ -17,10 +17,10 @@ public class ClientInHandler extends ChannelInboundHandlerAdapter {
     private static Logger logger = LoggerFactory.getLogger(ClientInHandler.class);
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object _msg) throws Exception {
         logger.debug("channel read {}", ctx);
-        NettyHelper.delivery(ctx, (NettyMsg) msg);
-        ReferenceCountUtil.release(msg);
+        NettyHelper.delivery(ctx, (NettyMsg) _msg);
+        ReferenceCountUtil.release(_msg);
     }
 
     @Override

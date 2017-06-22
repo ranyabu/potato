@@ -12,12 +12,12 @@ public class ServerBizHandler extends ChannelInboundHandlerAdapter {
     private static Logger logger = LoggerFactory.getLogger(ServerBizHandler.class);
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object _msg) throws Exception {
         logger.info("read {}", ctx);
-        NettyHelper.delivery(ctx, (NettyMsg) msg);
+        NettyHelper.delivery(ctx, (NettyMsg) _msg);
 
         // 释放
-        ReferenceCountUtil.release(msg);
+        ReferenceCountUtil.release(_msg);
     }
 
     @Override
