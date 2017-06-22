@@ -9,6 +9,13 @@ public class Header {
     // see {@link MsgType}
     private byte type;
     
+    public Header() {
+    }
+    
+    public Header(byte type) {
+        this.type = type;
+    }
+    
     public byte getVersion() {
         return version;
     }

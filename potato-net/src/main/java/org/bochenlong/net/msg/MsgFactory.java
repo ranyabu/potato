@@ -6,8 +6,7 @@ package org.bochenlong.net.msg;
  */
 public class MsgFactory {
     public static NettyMsg newMsg(Object o) {
-        Header header = new Header();
-        header.setType(MsgType.BIZ.getType());
+        Header header = new Header(MsgType.BIZ.getType());
         return new NettyMsg(header, o);
     }
 }
