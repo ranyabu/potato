@@ -1,6 +1,6 @@
 package org.bochenlong.net.func;
 
-import org.bochenlong.net.msg.bean.NettyMsg;
+import org.bochenlong.net.msg.NettyMsg;
 
 /**
  * Created by bochenlong on 17-6-20.

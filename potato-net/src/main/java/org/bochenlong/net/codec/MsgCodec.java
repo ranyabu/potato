@@ -5,7 +5,7 @@ import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;
 import io.protostuff.runtime.RuntimeSchema;
 import org.bochenlong.net.func.IMsgCodec;
-import org.bochenlong.net.msg.bean.NettyMsg;
+import org.bochenlong.net.msg.NettyMsg;
 
 /**
  * Created by bochenlong on 16-11-3.

@@ -1,4 +1,4 @@
-package org.bochenlong.net.msg.bean;
+package org.bochenlong.net.msg;
 
 /**
  * Created by bochenlong on 16-11-4.

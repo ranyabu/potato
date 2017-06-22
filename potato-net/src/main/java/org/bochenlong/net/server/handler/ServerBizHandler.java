@@ -4,7 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 import org.bochenlong.net.NettyHelper;
-import org.bochenlong.net.msg.bean.NettyMsg;
+import org.bochenlong.net.msg.NettyMsg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

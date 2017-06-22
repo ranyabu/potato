@@ -1,4 +1,6 @@
-package org.bochenlong.net.msg.bean;
+package org.bochenlong.net.msg;
+
+import org.bochenlong.net.msg.Header;
 
 /**
  * Created by bochenlong on 16-11-4.

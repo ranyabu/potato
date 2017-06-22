@@ -1,7 +1,7 @@
 package org.bochenlong.net.codec;
 
 import org.bochenlong.net.func.IMsgCodec;
-import org.bochenlong.net.msg.bean.NettyMsg;
+import org.bochenlong.net.msg.NettyMsg;
 import org.bochenlong.net.util.SpiUtil;
 
 /**

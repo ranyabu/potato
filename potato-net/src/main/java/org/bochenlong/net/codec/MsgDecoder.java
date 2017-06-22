@@ -3,7 +3,7 @@ package org.bochenlong.net.codec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import org.bochenlong.net.msg.bean.NettyMsg;
+import org.bochenlong.net.msg.NettyMsg;
 
 /**
  * Created by bochenlong on 16-11-4.

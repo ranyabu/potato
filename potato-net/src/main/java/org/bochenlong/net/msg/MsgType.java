@@ -5,7 +5,6 @@ package org.bochenlong.net.msg;
  */
 public enum MsgType {
     HEART((byte) -1),
-    AUTH((byte) -2),
     BIZ((byte) 1),;
 
     private byte type;

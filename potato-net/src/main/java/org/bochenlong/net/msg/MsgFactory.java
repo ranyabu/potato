@@ -1,9 +1,6 @@
 package org.bochenlong.net.msg;
 
 
-import org.bochenlong.net.msg.bean.Header;
-import org.bochenlong.net.msg.bean.NettyMsg;
-
 /**
  * Created by bochenlong on 17-1-3.
  */
