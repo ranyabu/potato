@@ -80,12 +80,19 @@ public class NettyServer {
     
     public void start() {
         start(NettyManager.me().getDEFAULT_PORT());
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Use stderr here since the logger may has been reset by its
+            // JVM shutdown hook.
+            logger.warn("*** shutting down server since JVM is shutting down");
+            NettyServer.this.stop();
+            logger.warn("*** server shut down");
+        }));
     }
     
     protected void stop() {
         workGroup.shutdownGracefully();
         bossGroup.shutdownGracefully();
-        logger.error("server stop over");
+        logger.warn("server stop over");
     }
     
 }

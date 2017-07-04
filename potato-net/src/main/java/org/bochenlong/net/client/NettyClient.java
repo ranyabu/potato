@@ -46,7 +46,7 @@ public class NettyClient {
                                     , NettyManager.me().getMSG_LEN_OFFSET(), NettyManager.me().getMSG_LEN_FIELD()
                                     , NettyManager.me().getMSG_LEN_ADJUSTMENT()));
                             ch.pipeline().addLast(new MsgEncoder());
-                            ch.pipeline().addLast(new ClientHbHandler(NettyManager.me().getIDLE_TIME_OUT(), 0, 0, TimeUnit.MILLISECONDS));
+                            ch.pipeline().addLast(new ClientHbHandler(0, NettyManager.me().getIDLE_TIME_OUT(), 0, TimeUnit.MILLISECONDS));
                             ch.pipeline().addLast(new ClientInHandler());
                         }
                     });
@@ -54,14 +54,14 @@ public class NettyClient {
             ChannelFuture future = bootstrap.connect(host, port).sync();
             this.channel = future.channel();
             
-            logger.info("NettyClient connH ok {} - {}", host, port);
+            logger.info("client connH ok {} - {}", host, port);
             this.channel.closeFuture().addListener(a -> {
-                logger.info("NettyClient connH close {} - {}", host, port);
+                logger.info("client connH close {} - {}", host, port);
                 // 关闭资源
                 this.close();
             });
         } catch (Exception e) {
-            logger.error("NettyClient connH exception : {} - {} / {}", host, port, e.getMessage());
+            logger.error("client connH exception : {} - {} / {}", host, port, e.getMessage());
             // 关闭资源
             this.close();
             e.printStackTrace();
@@ -74,7 +74,7 @@ public class NettyClient {
     
     private void close() {
         workGroup.shutdownGracefully();
-        logger.info("NettyClient close over");
+        logger.info("client close over");
     }
     
     @Override

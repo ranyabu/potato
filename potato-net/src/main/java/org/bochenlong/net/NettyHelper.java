@@ -19,7 +19,7 @@ import java.net.SocketAddress;
  * Created by bochenlong on 16-11-4.
  */
 public class NettyHelper {
-    
+
     private static Logger logger = LoggerFactory.getLogger(NettyHelper.class);
     
     private static DataHandler dataHandler = SpiUtil.getServiceImpl(DataHandler.class);
