@@ -5,6 +5,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.bochenlong.net.NettyManager;
 import org.bochenlong.net.client.handler.ClientInHandler;
 import org.bochenlong.net.codec.MsgDecoder;
@@ -20,19 +21,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class NettyClient {
     private static Logger logger = LoggerFactory.getLogger(NettyClient.class);
-    
+
     private volatile Channel channel;
-    
+
     public NettyClient(String host) {
         connect(host, NettyManager.me().getDEFAULT_PORT());
     }
-    
+
     private EventLoopGroup workGroup;
-    
+
     private void connect(String host, int port) {
         try {
             workGroup = new NioEventLoopGroup();
-            
+
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(workGroup)
                     .channel(NioSocketChannel.class)
@@ -46,14 +47,15 @@ public class NettyClient {
                                     , NettyManager.me().getMSG_LEN_OFFSET(), NettyManager.me().getMSG_LEN_FIELD()
                                     , NettyManager.me().getMSG_LEN_ADJUSTMENT()));
                             ch.pipeline().addLast(new MsgEncoder());
-                            ch.pipeline().addLast(new ClientHbHandler(0, NettyManager.me().getIDLE_TIME_OUT(), 0, TimeUnit.MILLISECONDS));
+                            ch.pipeline().addLast(new IdleStateHandler(0, NettyManager.me().getIDLE_TIME_OUT(), 0, TimeUnit.MILLISECONDS));
+                            ch.pipeline().addLast(new ClientHbHandler());
                             ch.pipeline().addLast(new ClientInHandler());
                         }
                     });
-            
+
             ChannelFuture future = bootstrap.connect(host, port).sync();
             this.channel = future.channel();
-            
+
             logger.info("client connH ok {} - {}", host, port);
             this.channel.closeFuture().addListener(a -> {
                 logger.info("client connH close {} - {}", host, port);
@@ -67,23 +69,23 @@ public class NettyClient {
             e.printStackTrace();
         }
     }
-    
+
     public Channel channel() {
         return this.channel;
     }
-    
+
     private void close() {
         workGroup.shutdownGracefully();
         logger.info("client close over");
     }
-    
+
     @Override
     public int hashCode() {
         int result = 17;
         result = 31 * result + this.channel.id().hashCode();
         return result;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof NettyClient)) {
@@ -92,5 +94,5 @@ public class NettyClient {
         NettyClient p = (NettyClient) obj;
         return p.channel.equals(this.channel);
     }
-    
+
 }

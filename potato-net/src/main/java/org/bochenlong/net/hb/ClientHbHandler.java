@@ -1,6 +1,7 @@
 package org.bochenlong.net.hb;
 
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.handler.timeout.IdleStateHandler;
@@ -13,11 +14,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by bochenlong on 17-6-21.
  */
-public class ClientHbHandler extends IdleStateHandler implements HbHandler {
-    public ClientHbHandler(long readerIdleTime, long writerIdleTime, long allIdleTime, TimeUnit unit) {
-        super(readerIdleTime, writerIdleTime, allIdleTime, unit);
-    }
-    
+public class ClientHbHandler extends ChannelInboundHandlerAdapter implements HbHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object _msg) throws Exception {
         NettyMsg msg = (NettyMsg) _msg;
@@ -27,7 +24,7 @@ public class ClientHbHandler extends IdleStateHandler implements HbHandler {
         }
         ctx.fireChannelRead(_msg);
     }
-    
+
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object _evt) throws Exception {
         if (_evt instanceof IdleStateEvent) {
@@ -39,5 +36,5 @@ public class ClientHbHandler extends IdleStateHandler implements HbHandler {
         }
         super.userEventTriggered(ctx, _evt);
     }
-    
+
 }

@@ -23,14 +23,21 @@
         <jdk.version>1.8</jdk.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <slf4j-jdk14.version>1.7.22</slf4j-jdk14.version>
+        <slf4j-log4j12.version>1.7.22</slf4j-log4j12.version>
+        <slf4j-api.version>1.7.22</slf4j-api.version>
+
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-jdk14</artifactId>
-            <version>${slf4j-jdk14.version}</version>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.22</version>
             <scope>test</scope>
         </dependency>
         <dependency>
