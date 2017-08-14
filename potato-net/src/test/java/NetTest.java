@@ -1,12 +1,12 @@
-import org.bochenlong.net.client.NettyClient;
-import org.bochenlong.net.msg.Header;
-import org.bochenlong.net.msg.MsgType;
-import org.bochenlong.net.msg.NettyMsg;
-import org.bochenlong.net.server.NettyServer;
+import org.mengdadou.net.client.NettyClient;
+import org.mengdadou.net.msg.Header;
+import org.mengdadou.net.msg.MsgType;
+import org.mengdadou.net.msg.NettyMsg;
+import org.mengdadou.net.server.NettyServer;
 import org.junit.Test;
 
 /**
- * Created by bochenlong on 17-6-22.
+ * Created by mengdadou on 17-6-22.
  */
 public class NetTest {
     @Test
