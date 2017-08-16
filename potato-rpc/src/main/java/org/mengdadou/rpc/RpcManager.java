@@ -24,11 +24,11 @@ public class RpcManager {
     
     private RpcManager() {
         //noinspection unchecked
-        LinkedHashMap<String, String> conf =
-                (LinkedHashMap<String, String>) new Yaml().load(RpcManager.class.getClassLoader().getResourceAsStream("rpc.yaml"));
-        this.EXECUTE_TIME_OUT = Long.parseLong(conf.getOrDefault("EXECUTE_TIME_OUT", "30000"));
-        this.ID_WORKER_SEQ1 = Integer.parseInt(conf.getOrDefault("ID_WORKER_SEQ1", "1"));
-        this.ID_WORKER_SEQ2 = Integer.parseInt(conf.getOrDefault("ID_WORKER_SEQ2", "1"));
+        LinkedHashMap<String, Object> conf =
+                (LinkedHashMap<String, Object>) new Yaml().load(RpcManager.class.getClassLoader().getResourceAsStream("rpc.yaml"));
+        this.EXECUTE_TIME_OUT = (int) conf.getOrDefault("EXECUTE_TIME_OUT", "30000");
+        this.ID_WORKER_SEQ1 = (int) conf.getOrDefault("ID_WORKER_SEQ1", 1);
+        this.ID_WORKER_SEQ2 = (int) conf.getOrDefault("ID_WORKER_SEQ2", 1);
     }
     
     public long getEXECUTE_TIME_OUT() {

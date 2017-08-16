@@ -13,11 +13,11 @@ public class PotatoFuture implements Future {
     
     private volatile int status = RUNNING;
     
-    private static final int RUNNING    = 1;
-    private static final int CANCELLED  = 2;
-    private static final int COMPLETED  = 10;
-    private static final int ERROR      = 50;
-    private static final int EXCEPTION  = 51;
+    private static final int RUNNING   = 1;
+    private static final int CANCELLED = 2;
+    private static final int COMPLETED = 10;
+    private static final int ERROR     = 50;
+    private static final int EXCEPTION = 51;
     
     private volatile Response result;
     
@@ -76,13 +76,13 @@ public class PotatoFuture implements Future {
             case COMPLETED:
                 return this.result;
             case ERROR:
-                return null;
+                throw new ExecutionException(new Throwable(result.getData().toString()));
             case EXCEPTION:
-                return null;
+                throw new ExecutionException(new Throwable(result.getData().toString()));
             case CANCELLED:
                 throw new InterruptedException("future have be interrupted");
             default:
-                throw new ExecutionException(new Throwable("UnKnow exception when future get"));
+                throw new ExecutionException(new Throwable("unKnow exception"));
         }
     }
     

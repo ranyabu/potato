@@ -6,7 +6,7 @@ import org.mengdadou.net.func.IActive;
 /**
  * Created by mengdadou on 16-12-22.
  */
-public class WhiteList implements IActive {
+public class DoNothing implements IActive {
 
     @Override
     public boolean active(ChannelHandlerContext ctx) {

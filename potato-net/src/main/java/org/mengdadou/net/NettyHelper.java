@@ -4,8 +4,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import org.mengdadou.net.client.NettyClient;
-import org.mengdadou.net.common.exception.RemoteException;
-import org.mengdadou.net.func.DataHandler;
+import org.mengdadou.net.exception.RemoteException;
+import org.mengdadou.net.func.IDataHandle;
 import org.mengdadou.net.msg.MsgFactory;
 import org.mengdadou.net.msg.NettyMsg;
 import org.mengdadou.net.server.NettyServer;
@@ -22,7 +22,7 @@ public class NettyHelper {
 
     private static Logger logger = LoggerFactory.getLogger(NettyHelper.class);
     
-    private static DataHandler dataHandler = SpiUtil.getServiceImpl(DataHandler.class);
+    private static IDataHandle dataHandle = SpiUtil.getServiceImpl(IDataHandle.class);
     
     private static String getIp(SocketAddress socketAddress) {
         String address = socketAddress.toString();
@@ -56,7 +56,7 @@ public class NettyHelper {
     
     public static void delivery(ChannelHandlerContext ctx, NettyMsg msg) {
         logger.debug("receive msg {}", msg);
-        dataHandler.execute(ctx, msg.getBody());
+        dataHandle.execute(ctx, msg.getBody());
     }
     
     public static void startServer() {

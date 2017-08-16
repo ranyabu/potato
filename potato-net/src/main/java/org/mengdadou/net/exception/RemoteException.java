@@ -1,4 +1,4 @@
-package org.mengdadou.net.common.exception;
+package org.mengdadou.net.exception;
 
 /**
  * Created by mengdadou on 16-11-14.

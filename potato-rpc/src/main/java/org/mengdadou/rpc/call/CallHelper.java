@@ -4,7 +4,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.AttributeKey;
 import org.mengdadou.net.NettyHelper;
-import org.mengdadou.net.common.exception.RemoteException;
+import org.mengdadou.net.exception.RemoteException;
 import org.mengdadou.rpc.RpcManager;
 import org.mengdadou.rpc.exchange.Request;
 import org.mengdadou.rpc.exchange.Response;

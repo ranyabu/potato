@@ -6,6 +6,6 @@ import io.netty.channel.ChannelHandlerContext;
  * Created by mengdadou on 17-3-27.
  */
 @FunctionalInterface
-public interface DataHandler {
+public interface IDataHandle {
     void execute(ChannelHandlerContext ctx, Object data);
 }

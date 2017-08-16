@@ -1,7 +1,7 @@
 package org.mengdadou.rpc;
 
 import io.netty.channel.ChannelHandlerContext;
-import org.mengdadou.net.func.DataHandler;
+import org.mengdadou.net.func.IDataHandle;
 import org.mengdadou.rpc.call.CallHelper;
 import org.mengdadou.rpc.exchange.Request;
 import org.mengdadou.rpc.exchange.Response;
@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by mengdadou on 17-3-27.
  */
-public class RpcDispatcher implements DataHandler {
+public class RpcDispatcher implements IDataHandle {
     private ConcurrentHashMap<String, MethodInvoker> potatoRpcMap;
     
     public RpcDispatcher() {
@@ -32,7 +32,7 @@ public class RpcDispatcher implements DataHandler {
         
         if (invoker == null) {
             CallHelper.response(ctx, ResponseUtil.exception(request.getId(),
-                    String.format("ERROR : %s", "no service find for this path")));
+                    "no service find for this path"));
             return;
         }
         invoker.invoke(request, ctx);
