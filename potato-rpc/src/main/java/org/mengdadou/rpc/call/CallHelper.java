@@ -8,11 +8,14 @@ import org.mengdadou.net.exception.RemoteException;
 import org.mengdadou.rpc.RpcManager;
 import org.mengdadou.rpc.exchange.Request;
 import org.mengdadou.rpc.exchange.Response;
-import org.mengdadou.rpc.exchange.assist.RequestType;
 import org.mengdadou.rpc.exchange.assist.PotatoFuture;
+import org.mengdadou.rpc.exchange.assist.RequestType;
 import org.mengdadou.rpc.func.URLHandlerUtil;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by mengdadou on 17-3-27.
@@ -21,8 +24,6 @@ public class CallHelper {
     protected static ConcurrentHashMap<String, Channel> CHANNELS
             = new ConcurrentHashMap<>();
     
-    protected static ConcurrentHashMap<Long, PotatoFuture> FUTURES
-            = new ConcurrentHashMap<>();
     
     public static final AttributeKey<String> ATTR_CHANNEL_KEY =
             AttributeKey.valueOf("CHANNEL_KEY");
@@ -42,7 +43,7 @@ public class CallHelper {
     public static PotatoFuture async(String restURL, Object... data) throws RemoteException {
         Request request = new Request(RequestType.SYNC.getType(), restURL, data);
         NettyHelper.send(connect(restURL), request);
-        return FUTURES.computeIfAbsent(request.getId(), a -> new PotatoFuture());
+        return RequestFutureMapping.singleton().add(request.getId(), new PotatoFuture(request.getId()));
     }
     
     private static void notify(String restURL, Object... data) throws RemoteException {
@@ -66,16 +67,16 @@ public class CallHelper {
     // but you should impl the URLHandler for get the host
     private static Channel connR(String restURL) {
         Channel channel = NettyHelper.connH(URLHandlerUtil.getHost(restURL));
-        String hostKey = URLHandlerUtil.getHostKey(restURL);
+        String  hostKey = URLHandlerUtil.getHostKey(restURL);
         channel.attr(ATTR_CHANNEL_KEY).setIfAbsent(hostKey);
         CHANNELS.put(URLHandlerUtil.getHostKey(restURL), channel);
         return channel;
     }
     
     public static void writeResp(Response response) {
-        PotatoFuture f = FUTURES.get(response.getId());
+        PotatoFuture f = RequestFutureMapping.singleton().get(response.getId());
         if (f == null) return;
         f.set(response);
-        FUTURES.remove(response.getId());
+        RequestFutureMapping.singleton().remove(response.getId());
     }
 }

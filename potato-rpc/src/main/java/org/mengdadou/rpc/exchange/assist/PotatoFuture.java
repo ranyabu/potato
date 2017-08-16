@@ -1,5 +1,6 @@
 package org.mengdadou.rpc.exchange.assist;
 
+import org.mengdadou.rpc.call.RequestFutureMapping;
 import org.mengdadou.rpc.exchange.Response;
 import org.mengdadou.rpc.exchange.ResponseCode;
 
@@ -16,12 +17,13 @@ public class PotatoFuture implements Future {
     private static final int RUNNING   = 1;
     private static final int CANCELLED = 2;
     private static final int COMPLETED = 10;
-    private static final int ERROR     = 50;
     private static final int EXCEPTION = 51;
     
     private volatile Response result;
+    private          long     requestId;
     
-    public PotatoFuture() {
+    public PotatoFuture(long requestId) {
+        this.requestId = requestId;
     }
     
     @Override
@@ -36,7 +38,7 @@ public class PotatoFuture implements Future {
     
     @Override
     public boolean isDone() {
-        return status == COMPLETED || status == ERROR || status == EXCEPTION;
+        return status == COMPLETED || status == EXCEPTION;
     }
     
     public boolean isRunning() {
@@ -51,10 +53,14 @@ public class PotatoFuture implements Future {
     
     @Override
     public Response get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        if (countDownLatch.await(timeout, unit)) {
-            return result();
+        try {
+            if (countDownLatch.await(timeout, unit)) {
+                return result();
+            }
+            throw new TimeoutException("future get the result timeout");
+        } finally {
+            RequestFutureMapping.singleton().remove(this.requestId);
         }
-        throw new TimeoutException("future get the result timeout");
     }
     
     public void set(Response v) {
@@ -75,8 +81,6 @@ public class PotatoFuture implements Future {
         switch (status) {
             case COMPLETED:
                 return this.result;
-            case ERROR:
-                throw new ExecutionException(new Throwable(result.getData().toString()));
             case EXCEPTION:
                 throw new ExecutionException(new Throwable(result.getData().toString()));
             case CANCELLED:
@@ -89,8 +93,6 @@ public class PotatoFuture implements Future {
     private void changeStatus(Response v) {
         if (v.getCode() == ResponseCode.SUCCESS.getValue()) {
             changeStatus(COMPLETED);
-        } else if (v.getCode() == ResponseCode.ERROR.getValue()) {
-            changeStatus(ERROR);
         } else if (v.getCode() == ResponseCode.EXCEPTION.getValue()) {
             changeStatus(EXCEPTION);
         }
