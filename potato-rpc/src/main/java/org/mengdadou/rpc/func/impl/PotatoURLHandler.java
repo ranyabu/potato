@@ -1,6 +1,6 @@
 package org.mengdadou.rpc.func.impl;
 
-import org.mengdadou.rpc.func.URLHandler;
+import org.mengdadou.rpc.func.IURLHandler;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -9,9 +9,9 @@ import java.util.function.Function;
  * Created by mengdadou on 17-3-27.
  * URL :  potato://127.0.0.1/chKey/path
  */
-public class PotatoURLHandler implements URLHandler {
-    private ConcurrentHashMap<String, String> hostMapping = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, String> pathMapping = new ConcurrentHashMap<>();
+public class PotatoURLHandler implements IURLHandler {
+    private ConcurrentHashMap<String, String> hostMapping    = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, String> pathMapping    = new ConcurrentHashMap<>();
     private ConcurrentHashMap<String, String> hostKeyMapping = new ConcurrentHashMap<>();
     
     @Override
@@ -43,7 +43,7 @@ public class PotatoURLHandler implements URLHandler {
     
     
     private int getStringIndex(String origin, @SuppressWarnings("SameParameterValue") String str, int n) {
-        int index = 0;
+        int index   = 0;
         int current = 0;
         for (int i = 0; i < n; i++) {
             index = origin.indexOf(str, current);

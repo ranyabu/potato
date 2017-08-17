@@ -1,6 +1,6 @@
 package org.mengdadou.rpc.exchange.assist;
 
-import org.mengdadou.rpc.call.RequestFutureMapping;
+import org.mengdadou.rpc.call.FutureMapping;
 import org.mengdadou.rpc.exchange.Response;
 import org.mengdadou.rpc.exchange.ResponseCode;
 
@@ -59,7 +59,7 @@ public class PotatoFuture implements Future {
             }
             throw new TimeoutException("future get the result timeout");
         } finally {
-            RequestFutureMapping.singleton().remove(this.requestId);
+            FutureMapping.singleton().remove(this.requestId);
         }
     }
     

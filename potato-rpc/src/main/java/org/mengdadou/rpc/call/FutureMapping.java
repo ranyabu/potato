@@ -7,13 +7,14 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by mengdadou on 17-8-16.
  */
-public class RequestFutureMapping {
-    private static class Holder {
-        private static RequestFutureMapping mapping = new RequestFutureMapping();
+public class FutureMapping {
+    private static FutureMapping mapping = new FutureMapping();
+    
+    private FutureMapping() {
     }
     
-    public static RequestFutureMapping singleton() {
-        return RequestFutureMapping.Holder.mapping;
+    public static FutureMapping singleton() {
+        return mapping;
     }
     
     private ConcurrentHashMap<Long, PotatoFuture> FUTURES
