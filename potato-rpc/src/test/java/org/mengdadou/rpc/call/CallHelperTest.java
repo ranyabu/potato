@@ -17,7 +17,7 @@ public class CallHelperTest {
         NettyHelper.startServer();
         Response sync = CallHelper.sync("potato://127.0.0.1/a/user/v1/getName", 1);
         System.out.println(sync.getData());
-         sync = CallHelper.sync("potato://127.0.0.1/b/getName", 1);
+        sync = CallHelper.sync("potato://127.0.0.1/b/getName", 1);
         System.out.println(sync.getData());
     }
 }

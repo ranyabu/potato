@@ -16,6 +16,7 @@
     <modules>
         <module>potato-net</module>
         <module>potato-rpc</module>
+        <module>potato-test</module>
     </modules>
 
     <properties>
