@@ -29,7 +29,6 @@ public class RpcDispatcher implements IDataHandle {
         }
         Request       request = (Request) data;
         MethodInvoker invoker = potatoRpcMap.get(request.getPath());
-        
         if (invoker == null) {
             CallHelper.response(ctx, ResponseUtil.exception(request.getId(),
                     "no service find for this path"));

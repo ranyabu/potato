@@ -55,7 +55,7 @@ public class NettyHelper {
     }
     
     public static void delivery(ChannelHandlerContext ctx, NettyMsg msg) {
-        logger.debug("receive msg {}", msg);
+        logger.info("receive msg {}", msg);
         dataHandle.execute(ctx, msg.getBody());
     }
     

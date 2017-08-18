@@ -21,7 +21,7 @@
         </RollingRandomAccessFile>
     </Appenders>
     <Loggers>
-        <AsyncRoot level="debug">
+        <AsyncRoot level="info">
             <AppenderRef ref="STDOUT"/>
         </AsyncRoot>
     </Loggers>

@@ -24,6 +24,7 @@ public class PotatoFuture implements Future {
     
     public PotatoFuture(long requestId) {
         this.requestId = requestId;
+        FutureMapping.singleton().add(requestId, this);
     }
     
     @Override

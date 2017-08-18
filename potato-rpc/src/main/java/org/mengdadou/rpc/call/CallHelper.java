@@ -41,9 +41,10 @@ public class CallHelper {
     }
     
     public static PotatoFuture async(String restURL, Object... data) throws RemoteException {
-        Request request = new Request(RequestType.SYNC.getType(), restURL, data);
+        Request      request = new Request(RequestType.SYNC.getType(), restURL, data);
+        PotatoFuture future  = new PotatoFuture(request.getId());
         NettyHelper.send(connect(restURL), request);
-        return FutureMapping.singleton().add(request.getId(), new PotatoFuture(request.getId()));
+        return future;
     }
     
     private static void notify(String restURL, Object... data) throws RemoteException {
