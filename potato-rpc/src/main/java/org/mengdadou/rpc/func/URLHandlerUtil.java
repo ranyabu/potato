@@ -6,7 +6,7 @@ import org.mengdadou.net.util.SpiUtil;
  * Created by mengdadou on 17-5-25.
  */
 public class URLHandlerUtil {
-    private static URLHandler handler = SpiUtil.getServiceImpl(URLHandler.class);
+    private static IURLHandler handler = SpiUtil.getServiceImpl(IURLHandler.class);
     
     public static String getHost(String resultURL) {
         return handler.getHost(resultURL);

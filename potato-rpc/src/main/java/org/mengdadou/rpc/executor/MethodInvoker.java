@@ -21,8 +21,8 @@ import java.util.function.Function;
 public class MethodInvoker {
     private static Logger logger = LoggerFactory.getLogger(MethodInvoker.class);
     
-    private Object instance;
-    private Method method;
+    private Object         instance;
+    private Method         method;
     private MethodExecutor executor;
     
     public MethodInvoker(Object instance, Method method, MethodExecutor executor) {

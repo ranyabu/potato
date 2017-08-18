@@ -18,7 +18,7 @@ public class RpcDispatcher implements IDataHandle {
     private ConcurrentHashMap<String, MethodInvoker> potatoRpcMap;
     
     public RpcDispatcher() {
-        this.potatoRpcMap = new ScanPotatoRpc().findAllPotatoRpc("org.bochenlong");
+        this.potatoRpcMap = new ScanPotatoRpc().findAllPotatoRpc("org.mengdadou");
     }
     
     @Override
@@ -35,6 +35,7 @@ public class RpcDispatcher implements IDataHandle {
                     "no service find for this path"));
             return;
         }
+        
         invoker.invoke(request, ctx);
     }
 }

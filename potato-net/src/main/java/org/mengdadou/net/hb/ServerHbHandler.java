@@ -20,4 +20,8 @@ public class ServerHbHandler extends ChannelInboundHandlerAdapter implements HbH
         }
         ctx.fireChannelRead(_msg);
     }
+    
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    }
 }

@@ -24,7 +24,7 @@
         <jdk.version>1.8</jdk.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <slf4j-log4j12.version>1.7.22</slf4j-log4j12.version>
+        <slf4j-simple.version>1.7.22</slf4j-simple.version>
         <slf4j-api.version>1.7.22</slf4j-api.version>
 
     </properties>
@@ -37,8 +37,8 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.22</version>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j-simple.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

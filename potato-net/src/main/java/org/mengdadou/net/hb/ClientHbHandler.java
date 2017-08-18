@@ -33,5 +33,9 @@ public class ClientHbHandler extends ChannelInboundHandlerAdapter implements HbH
         }
         super.userEventTriggered(ctx, _evt);
     }
+    
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    }
 
 }

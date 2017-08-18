@@ -10,16 +10,18 @@ import org.slf4j.LoggerFactory;
  */
 @Potato(pool = 50)
 public class UserService {
-    private Logger logger = LoggerFactory.getLogger(UserService.class);
+    private static Logger logger = LoggerFactory.getLogger(UserService.class);
     
     @PotatoRpc(path = "/user/v1/getName")
     public String getNameV1(long userId) {
-        return "this is li ming";
+        logger.info("accept userId {}", userId);
+        return "this is v1 li ming" + userId;
     }
     
     @PotatoRpc(path = "/user/v2/getName")
     public String getNameV2(long userId) {
-        return "this is li ming";
+        logger.info("accept userId {}", userId);
+        return "this is v2 li ming" + userId;
     }
     
     @PotatoRpc(path = "/save")
