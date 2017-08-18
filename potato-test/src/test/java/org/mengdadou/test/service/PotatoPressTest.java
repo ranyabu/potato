@@ -20,11 +20,15 @@ public class PotatoPressTest {
     public static void main(String[] args) throws RemoteException, ExecutionException, TimeoutException, InterruptedException {
         RpcDispatcher dispatcher = new RpcDispatcher();
         NettyHelper.startServer();
-        for (int i = 0; i < 1000; i++) {
+        long t = System.currentTimeMillis();
+        for (int i = 0; i < 1000000; i++) {
             Response sync = CallHelper.sync("potato://127.0.0.1/a/user/v1/getName", i);
             logger.info(sync.getData().toString());
             sync = CallHelper.sync("potato://127.0.0.1/b/user/v2/getName", i);
             logger.info(sync.getData().toString());
         }
+        t = System.currentTimeMillis() - t;
+        logger.info("!! time host：{}", t / 1000);
+        logger.info("!! per  host：{}", t / 1000000.0);
     }
 }

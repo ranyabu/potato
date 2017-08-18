@@ -13,7 +13,7 @@ public class ServerBizHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object _msg) throws Exception {
-        logger.info("read {}", ctx);
+        logger.debug("read {}", ctx);
         NettyHelper.delivery(ctx, (NettyMsg) _msg);
 
         // 释放
