@@ -36,6 +36,10 @@ public class CallHelper {
         }
     }
     
+    public static void reset(String restURL) {
+        CHANNELS.remove(URLHandlerUtil.getHostKey(restURL)).close();
+    }
+    
     public static Response sync(String restURL, Object... data) throws RemoteException, InterruptedException, ExecutionException, TimeoutException {
         return async(restURL, data).get(RpcManager.singleton().getEXECUTE_TIME_OUT(), TimeUnit.MINUTES);
     }

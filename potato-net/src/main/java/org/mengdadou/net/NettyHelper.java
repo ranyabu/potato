@@ -24,7 +24,7 @@ public class NettyHelper {
     
     private static IDataHandle dataHandle = SpiUtil.getServiceImpl(IDataHandle.class);
     
-    private static String getIp(SocketAddress socketAddress) {
+    public static String getIp(SocketAddress socketAddress) {
         String address = socketAddress.toString();
         address = address.substring(address.indexOf("/") + 1, address.indexOf(":"));
         return address;
