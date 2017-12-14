@@ -11,7 +11,7 @@ import org.mengdadou.net.msg.NettyMsg;
  */
 public class ServerHbHandler extends ChannelInboundHandlerAdapter implements HbHandler {
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object _msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object _msg) {
         NettyMsg msg = (NettyMsg) _msg;
         if (MsgType.BEAT.getType() == msg.getHeader().getType()) {
             ctx.writeAndFlush(newBeat());
@@ -22,6 +22,6 @@ public class ServerHbHandler extends ChannelInboundHandlerAdapter implements HbH
     }
     
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    public void channelReadComplete(ChannelHandlerContext ctx) {
     }
 }

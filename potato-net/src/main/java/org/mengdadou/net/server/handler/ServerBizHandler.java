@@ -12,7 +12,7 @@ public class ServerBizHandler extends ChannelInboundHandlerAdapter {
     private static Logger logger = LoggerFactory.getLogger(ServerBizHandler.class);
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object _msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object _msg) {
         logger.debug("read {}", ctx);
         NettyHelper.delivery(ctx, (NettyMsg) _msg);
 
@@ -21,12 +21,12 @@ public class ServerBizHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+    public void channelReadComplete(ChannelHandlerContext ctx) {
         logger.debug("read complete {}", ctx);
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         logger.error("{} exception {}", ctx, cause);
         cause.printStackTrace();
     }

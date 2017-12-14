@@ -11,7 +11,7 @@ import java.util.concurrent.Future;
  * Created by mengdadou on 17-3-24.
  */
 public class MethodExecutor {
-    ExecutorService service;
+    private ExecutorService service;
 
     public MethodExecutor(int pool) {
         service = Executors.newFixedThreadPool(pool);

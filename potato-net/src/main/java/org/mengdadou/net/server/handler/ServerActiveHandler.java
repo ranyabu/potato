@@ -13,19 +13,19 @@ public class ServerActiveHandler extends ChannelInboundHandlerAdapter {
     private static Logger logger = LoggerFactory.getLogger(ServerActiveHandler.class);
     
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         logger.error("{} exception {}", ctx, cause.getMessage());
         cause.printStackTrace();
     }
     
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) {
         logger.debug("active {}", ctx);
         if (!ActiveWrapper.active(ctx)) ctx.close();
     }
     
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(ChannelHandlerContext ctx) {
         logger.debug("inactive {}", ctx);
         ActiveWrapper.inactive(ctx);
     }

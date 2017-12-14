@@ -21,7 +21,7 @@ public class PotatoPressTest {
         RpcDispatcher dispatcher = new RpcDispatcher();
         NettyHelper.startServer();
         long t     = System.currentTimeMillis();
-        int  count = 1000000;
+        int  count = 100;
         for (int i = 0; i < count; i++) {
             Response sync = CallHelper.sync("potato://127.0.0.1/a/user/v1/getName", i);
             logger.info(sync.getData().toString());
