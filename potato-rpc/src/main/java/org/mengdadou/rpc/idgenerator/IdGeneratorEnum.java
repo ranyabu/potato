@@ -1,6 +1,7 @@
 package org.mengdadou.rpc.idgenerator;
 
-import org.mengdadou.potato.websocket.util.SpiUtil;
+
+import org.mengdadou.net.util.SpiUtil;
 
 /**
  * Created by mengdadou on 17-10-16.
