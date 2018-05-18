@@ -1,7 +1,7 @@
 package org.mengdadou.rpc.exchange;
 
 import org.mengdadou.rpc.func.URLHandlerUtil;
-import org.mengdadou.rpc.idgenerator.IdWorker;
+import org.mengdadou.rpc.idgenerator.IdGeneratorEnum;
 
 /**
  * Created by mengdadou on 17-3-27.
@@ -9,7 +9,7 @@ import org.mengdadou.rpc.idgenerator.IdWorker;
 public class Request {
     private byte version = 0x01;
     
-    private long id = IdWorker.instance().nextId();
+    private long id = IdGeneratorEnum.INST.getIdGenerator().nextId();
     
     private byte type;
     
